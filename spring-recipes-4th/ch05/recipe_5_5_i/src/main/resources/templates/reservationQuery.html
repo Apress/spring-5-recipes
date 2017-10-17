@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Reservation Query</title>
+</head>
+<body>
+<form method="POST">
+        <label for="courtName">Court Name</label> <input type="text" id="courtName" name="courtName" />
+        <input type="submit" value="Query"/>
+</form>
+
+<br/>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>Court Name</th>
+        <th>Date</th>
+        <th>Hour</th>
+        <th>Player</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="reservation : ${reservations}">
+        <td th:text="${reservation.courtName}">Court</td>
+        <td th:text="${#temporals.format(reservation.date, 'dd-MM-yyyy')}">21-06-2017</td>
+        <td th:text="${reservation.hour}">22</td>
+        <td th:text="${reservation.player.name}">Player</td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

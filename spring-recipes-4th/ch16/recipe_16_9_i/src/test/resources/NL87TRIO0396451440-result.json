@@ -1,0 +1,15 @@
+{
+  "valid": true,
+  "messages": [
+    "Bank code valid: TRIO"
+  ],
+  "iban": "NL87TRIO0396451440",
+  "bankData": {
+    "bankCode": "TRIO",
+    "name": "TRIODOS BANK NV",
+    "bic": "TRIONL2U"
+  },
+  "checkResults": {
+    "bankCode": true
+  }
+}

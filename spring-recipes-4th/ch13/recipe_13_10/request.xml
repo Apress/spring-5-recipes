@@ -1,0 +1,7 @@
+<GetTemperaturesRequest
+    xmlns="http://springrecipes.apress.com/weather/schemas">
+    <city>Houston</city>
+    <date>2014-12-01</date>
+    <date>2014-12-08</date>
+    <date>2014-12-15</date>
+</GetTemperaturesRequest>

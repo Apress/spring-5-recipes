@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Reservation Form</title>
+    <style>
+        .error {
+            color: #ff0000;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+<form method="post" th:object="${reservation}">
+
+    <table>
+        <tr>
+            <td>Court Name</td>
+            <td><input type="text" th:field="*{courtName}" required/></td>
+            <td><span class="error" th:if="${#fields.hasErrors('courtName')}" th:errors="*{courtName}"></span></td>
+        </tr>
+        <tr>
+            <td>Date</td>
+            <td><input type="date" th:field="*{date}" required/></td>
+            <td><span class="error" th:if="${#fields.hasErrors('date')}" th:errors="*{date}"></span></td>
+        </tr>
+        <tr>
+            <td>Hour</td>
+            <td><input type="number" min="8" max="22" th:field="*{hour}"/></td>
+            <td><span class="error" th:if="${#fields.hasErrors('hour')}" th:errors="*{hour}"></span></td>
+        </tr>
+        <tr>
+            <td>Player Name</td>
+            <td><input type="text" th:field="*{player.name}" required/></td>
+            <td><span class="error" th:if="${#fields.hasErrors('player.name')}" th:errors="*{player.name}"></span></td>
+        </tr>
+        <tr>
+            <td>Player Phone</td>
+            <td><input type="text" th:field="*{player.phone}" required/></td>
+            <td><span class="error" th:if="${#fields.hasErrors('player.phone')}" th:errors="*{player.phone}"></span>
+            </td>
+        </tr>
+        <tr>
+            <td>Sport Type</td>
+            <td>
+                <select th:field="*{sportType}">
+                    <option th:each="sportType : ${sportTypes}" th:value="${sportType.id}" th:text="${sportType.name}"/>
+                </select>
+            </td>
+            <td><span class="error" th:if="${#fields.hasErrors('sportType')}" th:errors="*{sportType}"></span></td>
+        </tr>
+        <tr>
+            <td colspan="3"><input type="submit"/></td>
+        </tr>
+    </table>
+
+</form>
+</body>
+</html>

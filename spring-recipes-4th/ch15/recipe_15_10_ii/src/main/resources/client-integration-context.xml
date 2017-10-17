@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans:beans xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns="http://www.springframework.org/schema/integration"
+             xmlns:context="http://www.springframework.org/schema/context"
+             xmlns:jms="http://www.springframework.org/schema/integration/jms"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
+                http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+                http://www.springframework.org/schema/integration/jms http://www.springframework.org/schema/integration/jms/spring-integration-jms.xsd">
+
+    <beans:import resource="shared-context.xml" />
+
+    <context:annotation-config />
+    <channel id="requests" />
+    <channel id="responses" />
+
+    <jms:outbound-gateway
+            request-destination-name="inboundHotelReservationSearchDestination"
+            request-channel="requests"
+            reply-destination-name="outboundHotelReservationSearchResultsDestination"
+            reply-channel="responses"
+            connection-factory="connectionFactory" />
+
+    <gateway id="vacationService"
+             service-interface="com.apress.springrecipes.springintegration.myholiday.VacationService" />
+
+
+
+
+</beans:beans>

@@ -1,0 +1,17 @@
+<!DOCTYPE hibernate-mapping
+        PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.apress.springrecipes.course">
+    <class name="Course" table="COURSE">
+        <id name="id" type="long" column="ID">
+            <generator class="identity"/>
+        </id>
+        <property name="title" type="string">
+            <column name="TITLE" length="100" not-null="true"/>
+        </property>
+        <property name="beginDate" type="date" column="BEGIN_DATE"/>
+        <property name="endDate" type="date" column="END_DATE"/>
+        <property name="fee" type="int" column="FEE"/>
+    </class>
+</hibernate-mapping>

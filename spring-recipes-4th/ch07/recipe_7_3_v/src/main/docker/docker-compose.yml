@@ -1,0 +1,21 @@
+version: "3"
+
+services:
+  ldap:
+    image: tnguyen1/ldap-opends
+    ports:
+      - 1389:389
+    volumes:
+      - ../resources/ldap:/ldif
+    environment:
+      - LDAP_PASSWORD=ldap
+      - LDAP_BASEDN=dc=springrecipes,dc=com
+  web:
+    image: sr4/todos-security
+    environment:
+      - JAVA_OPTS=-Xdebug -Xnoagent -Xrunjdwp:transport=dt_socket,address=5005,server=y,suspend=n -Djava.compiler=NONE
+    ports:
+      - 8080:8080
+      - 5005:5005
+    links:
+      - ldap:ldap-server

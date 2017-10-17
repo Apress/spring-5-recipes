@@ -1,0 +1,16 @@
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="welcome" class="org.springframework.web.servlet.view.JstlView">
+        <property name="url" value="/WEB-INF/jsp/welcome.jsp"/>
+    </bean>
+
+    <bean id="reservationQuery" class="org.springframework.web.servlet.view.JstlView">
+        <property name="url" value="/WEB-INF/jsp/reservationQuery.jsp"/>
+    </bean>
+
+    <bean id="welcomeRedirect" class="org.springframework.web.servlet.view.RedirectView">
+        <property name="url" value="welcome"/>
+    </bean>
+</beans>

@@ -1,0 +1,18 @@
+<GetTemperaturesResponse
+    xmlns="http://springrecipes.apress.com/weather/schemas">
+    <TemperatureInfo city="Houston" date="2014-12-01">
+        <min>5.0</min>
+        <max>10.0</max>
+        <average>8.0</average>
+    </TemperatureInfo>
+    <TemperatureInfo city="Houston" date="2007-12-08">
+        <min>4.0</min>
+        <max>13.0</max>
+        <average>7.0</average>
+    </TemperatureInfo>
+    <TemperatureInfo city="Houston" date="2007-12-15">
+        <min>10.0</min>
+        <max>18.0</max>
+        <average>15.0</average>
+    </TemperatureInfo>
+</GetTemperaturesResponse>

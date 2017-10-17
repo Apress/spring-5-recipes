@@ -1,0 +1,41 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+
+
+    <bean id="mailSender"
+        class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host" value="localhost" />
+        <property name="port" value="25" />
+        <property name="username" value="system" />
+        <property name="password" value="12345" />
+    </bean>
+
+    <bean id="copyErrorMailMessage"
+        class="org.springframework.mail.SimpleMailMessage">
+        <property name="from" value="system@localhost" />
+        <property name="to" value="admin@localhost" />
+        <property name="subject" value="File Copy Error" />
+        <property name="text">
+            <value>
+	      <![CDATA[
+		       Dear Administrator,
+
+                       An error occurred when copying the following file :
+		       Source directory : %s
+		       Destination directory : %s
+		       Filename : %s
+	      ]]>
+            </value>
+        </property>
+    </bean>
+
+    <bean id="errorNotifier"
+        class="com.apress.springrecipes.replicator.EmailErrorNotifier">
+        <property name="mailSender" ref="mailSender" />
+        <property name="copyErrorMailMessage" ref="copyErrorMailMessage" />
+    </bean>
+
+
+</beans>

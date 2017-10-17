@@ -1,0 +1,42 @@
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+
+    <bean id="aaa"
+          class="com.apress.springrecipes.shop.DiscountFactoryBean">
+        <property name="product">
+            <bean class="com.apress.springrecipes.shop.Battery">
+                <constructor-arg value="AAA"/>
+                <constructor-arg value="2.5"/>
+            </bean>
+        </property>
+        <property name="discount" value="0.2"/>
+    </bean>
+
+    <bean id="cdrw"
+          class="com.apress.springrecipes.shop.DiscountFactoryBean">
+        <property name="product">
+            <bean class="com.apress.springrecipes.shop.Disc">
+                <constructor-arg value="CD-RW"/>
+                <constructor-arg value="1.5"/>
+            </bean>
+        </property>
+        <property name="discount" value="0.1"/>
+    </bean>
+
+    <bean id="dvdrw"
+          class="com.apress.springrecipes.shop.DiscountFactoryBean">
+        <property name="product">
+            <bean class="com.apress.springrecipes.shop.Disc">
+                <constructor-arg value="DVD-RW"/>
+                <constructor-arg value="3.0"/>
+            </bean>
+        </property>
+        <property name="discount" value="0.1"/>
+    </bean>
+
+
+    <bean id="shoppingCart" class="com.apress.springrecipes.shop.ShoppingCart" scope="prototype"/>
+
+</beans>

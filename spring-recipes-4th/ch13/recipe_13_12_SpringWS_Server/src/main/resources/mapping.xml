@@ -1,0 +1,47 @@
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+    "http://castor.org/mapping.dtd">
+
+<mapping>
+    <class name="com.apress.springrecipes.weather.GetTemperaturesRequest">
+        <map-to xml="GetTemperaturesRequest"
+            ns-uri="http://springrecipes.apress.com/weather/schemas" />
+        <field name="city" type="string">
+            <bind-xml name="city" node="element" />
+        </field>
+        <field name="dates" collection="arraylist" type="string"
+            handler="com.apress.springrecipes.weather.DateFieldHandler">
+            <bind-xml name="date" node="element" />
+        </field>
+    </class>
+
+    <class name="com.apress.springrecipes.weather.GetTemperaturesResponse">
+        <map-to xml="GetTemperaturesResponse"
+            ns-uri="http://springrecipes.apress.com/weather/schemas" />
+        <field name="temperatures" collection="arraylist"
+            type="com.apress.springrecipes.weather.TemperatureInfo">
+            <bind-xml name="TemperatureInfo" node="element" />
+        </field>
+    </class>
+
+ 
+    <class name="com.apress.springrecipes.weather.TemperatureInfo">
+        <map-to xml="TemperatureInfo"
+            ns-uri="http://springrecipes.apress.com/weather/schemas" />
+        <field name="city" type="string">
+            <bind-xml name="city" node="attribute" />
+        </field>
+        <field name="date" type="string"
+            handler="com.apress.springrecipes.weather.DateFieldHandler">
+            <bind-xml name="date" node="attribute" />
+        </field>
+        <field name="min" type="double">
+            <bind-xml name="min" node="element" />
+        </field>
+        <field name="max" type="double">
+            <bind-xml name="max" node="element" />
+        </field>
+        <field name="average" type="double">
+            <bind-xml name="average" node="element" />
+        </field>
+    </class>
+</mapping>

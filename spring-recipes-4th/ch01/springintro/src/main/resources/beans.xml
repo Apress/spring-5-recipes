@@ -1,0 +1,27 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <bean id="christmas" class="com.apress.springrecipes.hello.Holiday">
+        <property name="month" value="12" />
+        <property name="day" value="25" />
+        <property name="greeting" value="Merry Christmas!" />
+    </bean>
+
+    <bean id="newYear" class="com.apress.springrecipes.hello.Holiday">
+        <property name="month" value="1" />
+        <property name="day" value="1" />
+        <property name="greeting" value="Happy New Year!" />
+    </bean>
+
+    <bean id="helloWorld" class="com.apress.springrecipes.hello.HelloWorld">
+        <property name="message" value="How are you?" />
+        <property name="holidays">
+            <list>
+                <ref local="christmas" />
+                <ref local="newYear" />
+            </list>
+        </property>
+    </bean>
+</beans>

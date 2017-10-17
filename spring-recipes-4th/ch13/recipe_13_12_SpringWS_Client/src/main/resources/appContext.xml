@@ -1,0 +1,30 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+
+    <bean id="weatherClient"
+        class="com.apress.springrecipes.weather.WeatherServiceClient">
+        <property name="weatherService" ref="weatherServiceProxy" />
+    </bean>
+
+   <bean id="marshaller"
+        class="org.springframework.oxm.castor.CastorMarshaller">
+        <property name="mappingLocation" value="classpath:mapping.xml" />
+    </bean>
+
+    <bean id="webServiceTemplate"
+        class="org.springframework.ws.client.core.WebServiceTemplate">
+        <property name="defaultUri"
+            value="http://localhost:8080/springws/" />
+	<property name="marshaller" ref="marshaller" />
+        <property name="unmarshaller" ref="marshaller" />
+    </bean>
+
+    <bean id="weatherServiceProxy"
+        class="com.apress.springrecipes.weather.WeatherServiceProxy">
+        <property name="webServiceTemplate" ref="webServiceTemplate" />
+    </bean>
+
+
+</beans>

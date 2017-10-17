@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://springrecipes.apress.com/weather/schemas" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="GetTemperaturesRequest">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element type="xs:string" name="city"/>
+        <xs:element type="xs:date" name="date" maxOccurs="5" minOccurs="1"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetTemperaturesResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="TemperatureInfo" maxOccurs="5" minOccurs="1">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element type="xs:float" name="min"/>
+              <xs:element type="xs:float" name="max"/>
+              <xs:element type="xs:float" name="average"/>
+            </xs:sequence>
+            <xs:attribute type="xs:string" name="city" use="optional"/>
+            <xs:attribute type="xs:date" name="date" use="optional"/>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

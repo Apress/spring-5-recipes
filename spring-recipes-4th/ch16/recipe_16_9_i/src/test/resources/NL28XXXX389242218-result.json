@@ -1,0 +1,16 @@
+{
+  "valid": false,
+  "messages": [
+    "Validation failed.",
+    "Invalid bank code: XXXX",
+    "No BIC found for bank code: XXXX"
+  ],
+  "iban": "NL28XXXX0389242218",
+  "bankData": {
+    "bankCode": "",
+    "name": ""
+  },
+  "checkResults": {
+    "bankCode": false
+  }
+}

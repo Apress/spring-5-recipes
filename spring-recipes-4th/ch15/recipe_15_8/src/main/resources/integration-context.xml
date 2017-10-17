@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns="http://www.springframework.org/schema/integration"
+             xmlns:file="http://www.springframework.org/schema/integration/file"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
+                http://www.springframework.org/schema/integration/file http://www.springframework.org/schema/integration/file/spring-integration-file.xsd
+                ">
+
+    <channel id="customerBatchChannel"/>
+
+    <file:inbound-channel-adapter
+            directory="file:${user.home}/customerstoremove/new/"
+            channel="customerBatchChannel"  filename-pattern="customerstoremove-*.txt"/>
+
+    <beans:bean id="transformer" class="com.apress.springrecipes.springintegration.FileToJobLaunchRequestTransformer">
+        <beans:constructor-arg index="0" value="importCustomersJob" />
+        <beans:constructor-arg index="1" value="filename" />
+    </beans:bean>
+
+    <beans:bean id="jobLaunchingMessageHandler" class="org.springframework.batch.integration.launch.JobLaunchingMessageHandler">
+        <beans:constructor-arg ref="jobLauncher" />
+    </beans:bean>
+
+     <chain input-channel="customerBatchChannel">
+         <transformer ref="transformer" />
+         <service-activator ref="jobLaunchingMessageHandler" />
+     </chain>
+</beans:beans>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.css" />
+    <script type="text/javascript" src="app.js"></script>
+</head>
+<body>
+<div>
+    <div id="connect-container" class="ui centered grid">
+        <div class="row">
+            <button id="connect" onclick="connect();" class="ui green button ">Connect</button>
+            <button id="disconnect" disabled="disabled" onclick="disconnect();" class="ui red button">Disconnect</button>
+        </div>
+        <div class="row">
+            <textarea id="message" style="width: 350px" class="ui input" placeholder="Message to Echo"></textarea>
+        </div>
+        <div class="row">
+            <button id="echo" onclick="echo();" disabled="disabled" class="ui button">Echo message</button>
+        </div>
+    </div>
+    <div id="console-container">
+        <h3>Logging</h3>
+        <div id="logging"></div>
+    </div>
+</div>
+</body>
+</html>

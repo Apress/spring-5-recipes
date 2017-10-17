@@ -1,0 +1,22 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+
+
+    <bean id="mbeanServerConnection"
+        class="org.springframework.jmx.support.MBeanServerConnectionFactoryBean">
+        <property name="serviceUrl" value=
+            "service:jmx:rmi://localhost/jndi/rmi://localhost:1099/replicator" />
+    </bean>
+
+    <bean id="fileReplicatorProxy"
+        class="org.springframework.jmx.access.MBeanProxyFactoryBean">
+        <property name="server" ref="mbeanServerConnection" />
+        <property name="objectName"
+            value="bean:name=documentReplicator" />
+        <property name="proxyInterface"
+            value="com.apress.springrecipes.replicator.FileReplicator" />
+    </bean>
+ 
+</beans>

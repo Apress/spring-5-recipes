@@ -1,0 +1,45 @@
+dn: dc=springrecipes,dc=com
+objectClass: top
+objectClass: domain
+dc: springrecipes
+
+dn: ou=groups,dc=springrecipes,dc=com
+objectclass: top
+objectclass: organizationalUnit
+ou: groups
+
+dn: ou=people,dc=springrecipes,dc=com
+objectclass: top
+objectclass: organizationalUnit
+ou: people
+
+dn: uid=admin,ou=people,dc=springrecipes,dc=com
+objectclass: top
+objectclass: uidObject
+objectclass: person
+uid: admin
+cn: admin
+sn: admin
+userPassword: secret
+
+dn: uid=user1,ou=people,dc=springrecipes,dc=com
+objectclass: top
+objectclass: uidObject
+objectclass: person
+uid: user1
+cn: user1
+sn: user1
+userPassword: 1111
+
+dn: cn=admin,ou=groups,dc=springrecipes,dc=com
+objectclass: top
+objectclass: groupOfNames
+cn: admin
+member: uid=admin,ou=people,dc=springrecipes,dc=com
+
+dn: cn=user,ou=groups,dc=springrecipes,dc=com
+objectclass: top
+objectclass: groupOfNames
+cn: user
+member: uid=admin,ou=people,dc=springrecipes,dc=com
+member: uid=user1,ou=people,dc=springrecipes,dc=com

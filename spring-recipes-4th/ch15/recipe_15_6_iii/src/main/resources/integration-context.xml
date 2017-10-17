@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans:beans xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns="http://www.springframework.org/schema/integration"
+             xmlns:jms="http://www.springframework.org/schema/integration/jms"
+             xmlns:context="http://www.springframework.org/schema/context"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
+                http://www.springframework.org/schema/integration/jms http://www.springframework.org/schema/integration/jms/spring-integration-jms.xsd
+                http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:annotation-config />
+    <channel id="customErrorChannelForMyCustomException"/>
+
+    <beans:bean id="connectionFactory" class="org.springframework.jms.connection.CachingConnectionFactory">
+        <beans:property name="targetConnectionFactory">
+            <beans:bean class="org.apache.activemq.ActiveMQConnectionFactory">
+                <beans:property name="brokerURL" value="tcp://localhost:61616"/>
+            </beans:bean>
+        </beans:property>
+        <beans:property name="sessionCacheSize" value="10"/>
+        <beans:property name="cacheProducers" value="false"/>
+    </beans:bean>
+
+    <beans:bean id="inboundJMSMessageToCustomerTransformer"
+                class="com.apress.springrecipes.springintegration.InboundJMSMessageToCustomerTransformer"/>
+
+    <beans:bean id="inboundCustomerServiceActivator"
+    class="com.apress.springrecipes.springintegration.InboundCustomerServiceActivator"/>
+    <channel id="inboundHelloJMSMessageChannel"/>
+    <channel id="inboundCustomerChannel"/>
+    <jms:message-driven-channel-adapter channel="inboundHelloJMSMessageChannel"
+                                        extract-payload="true" connection-factory="connectionFactory"
+                                        destination-name="solution015" error-channel="errorChannel"/>
+
+    <transformer input-channel="inboundHelloJMSMessageChannel"
+                 ref="inboundJMSMessageToCustomerTransformer"
+                 output-channel="inboundCustomerChannel" />
+
+    <service-activator input-channel="inboundCustomerChannel" ref="inboundCustomerServiceActivator" />
+
+    <exception-type-router input-channel="errorChannel">
+        <mapping exception-type="com.apress.springrecipes.springintegration.MyCustomException" channel="customErrorChannelForMyCustomException"/>
+    </exception-type-router>
+
+    <beans:bean id="defaultErrorHandlingServiceActivator"
+    class="com.apress.springrecipes.springintegration.DefaultErrorHandlingServiceActivator"/>
+
+    <service-activator id="defaultErrorHandlerSA" input-channel="customErrorChannelForMyCustomException" ref="defaultErrorHandlingServiceActivator" />
+
+
+</beans:beans>

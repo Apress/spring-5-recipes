@@ -1,0 +1,13 @@
+<!DOCTYPE aspectj PUBLIC "-//AspectJ//DTD//EN"
+        "http://www.eclipse.org/aspectj/dtd/aspectj.dtd">
+
+<aspectj>
+    <weaver>
+        <include within="com.apress.springrecipes.calculator.*"/>
+    </weaver>
+
+    <aspects>
+        <aspect
+                name="com.apress.springrecipes.calculator.ComplexCachingAspect"/>
+    </aspects>
+</aspectj>
