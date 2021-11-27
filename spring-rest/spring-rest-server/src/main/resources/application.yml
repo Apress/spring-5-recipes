@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: kafka-admin-client
+---
+profiles: dev
+server:
+  port: 30000
+kafka:
+  clusters:
+    - clusterName: kafka-dev
+      clusterId: GhPqI85ySvu7S9J8oMo5bw
+      bootstrapServers:
+        - localhost:9092
+    - clusterName: kafka-live
+      clusterId: GhPqI85ySvu7S9J8oMo5bw
+      bootstrapServers:
+        - localhost:9092

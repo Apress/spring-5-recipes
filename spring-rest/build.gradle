@@ -1,0 +1,95 @@
+buildscript {
+    ext {
+        springBootVersion = '2.1.6.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.8.2'
+    }
+}
+
+ext {
+    springBootVersion = '2.1.6.RELEASE'
+    lombokVersion = '1.16.20'
+}
+
+allprojects {
+    apply plugin: 'com.github.kt3k.coveralls'
+    apply plugin: 'jacoco'
+    repositories {
+        jcenter()
+    }
+}
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+
+    group = 'me.suhyuk'
+    version = '0.0.1-SNAPSHOT'
+    sourceCompatibility = 1.8
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        testImplementation('org.springframework.boot:spring-boot-starter-test')
+    }
+
+    jacocoTestReport {
+        reports {
+            html.enabled = true // human readable
+            xml.enabled = true  // required by coveralls
+        }
+    }
+}
+
+task jacocoRootReport(type: JacocoReport) {
+    description = 'Generates an aggregate report from all subprojects'
+    dependsOn = subprojects.test
+    sourceDirectories = files(subprojects.sourceSets.main.allSource.srcDirs)
+    classDirectories = files(subprojects.sourceSets.main.output)
+    executionData = files(subprojects.jacocoTestReport.executionData)
+    reports {
+        html.enabled = true
+        xml.enabled = true
+    }
+}
+
+coveralls {
+    sourceDirs = subprojects.sourceSets.main.allSource.srcDirs.flatten()
+    jacocoReportPath = "${buildDir}/reports/jacoco/jacocoRootReport/jacocoRootReport.xml"
+}
+
+project(':spring-rest-server') {
+    dependencies {
+        implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: springBootVersion
+        implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: springBootVersion
+        // swagger & ui
+        implementation group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
+        implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
+        // lombok
+        compileOnly group: 'org.projectlombok', name: 'lombok', version: lombokVersion
+        annotationProcessor group: 'org.projectlombok', name: 'lombok', version: lombokVersion
+        // jackson-json
+        implementation group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.12.3'
+        implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.12.3'
+        implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.12.3'
+        // kafka-admin-client
+        implementation group: 'org.apache.kafka', name: 'kafka-clients', version: '2.6.3'
+        // spring-configuration-properties
+        annotationProcessor group: 'org.springframework.boot', name:'spring-boot-configuration-processor', version: springBootVersion
+
+        // lombok-test
+        testCompileOnly group: 'org.projectlombok', name: 'lombok', version: lombokVersion
+        testAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: lombokVersion
+        // spring-test
+        testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: springBootVersion
+    }
+}
