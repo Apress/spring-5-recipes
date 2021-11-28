@@ -5,10 +5,7 @@ import me.suhyuk.spring.boot.rest.dto.kafka.KafkaTopicConfigs;
 import me.suhyuk.spring.boot.rest.dto.kafka.KafkaTopicInfo;
 import me.suhyuk.spring.boot.rest.dto.kafka.KafkaTopicList;
 import me.suhyuk.spring.boot.rest.utils.Pair;
-import org.apache.kafka.clients.admin.AdminClient;
-import org.apache.kafka.clients.admin.Config;
-import org.apache.kafka.clients.admin.TopicDescription;
-import org.apache.kafka.clients.admin.TopicListing;
+import org.apache.kafka.clients.admin.*;
 import org.apache.kafka.common.config.ConfigResource;
 import org.springframework.stereotype.Service;
 
@@ -46,5 +43,11 @@ public class KafkaAdminService implements IKafkaAdminService {
         ConfigResource resource = new ConfigResource(ConfigResource.Type.TOPIC, topicName);
         Map<ConfigResource, Config> resources = getClient(clusterName).describeConfigs(Collections.singleton(resource)).all().get();
         return KafkaTopicConfigs.builder().resources(resources).build();
+    }
+
+    @Override
+    public void createTopic(String clusterName, String topicName, int numPartitions, short replicationFactor) throws ExecutionException, InterruptedException {
+        NewTopic newTopic = new NewTopic(topicName, numPartitions, replicationFactor);
+        getClient(clusterName).createTopics(Collections.singleton(newTopic)).all().get();
     }
 }

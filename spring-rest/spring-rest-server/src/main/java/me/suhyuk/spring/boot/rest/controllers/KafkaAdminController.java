@@ -2,6 +2,7 @@ package me.suhyuk.spring.boot.rest.controllers;
 
 import lombok.AllArgsConstructor;
 import me.suhyuk.spring.boot.rest.configurations.kafka.KafkaConfiguration;
+import me.suhyuk.spring.boot.rest.dto.kafka.CreateTopicRequest;
 import me.suhyuk.spring.boot.rest.dto.kafka.KafkaTopicList;
 import me.suhyuk.spring.boot.rest.dto.kafka.MyObject;
 import me.suhyuk.spring.boot.rest.services.kafka.KafkaAdminService;
@@ -64,11 +65,16 @@ public class KafkaAdminController {
         return ResponseEntity.ok(kafkaAdminService.getTopicInfo(clusterName, topicName).toString());
     }
 
-    @GetMapping("/{clustername}/topics/{topicName}/configs")
+    @GetMapping("/{clusterName}/topics/{topicName}/configs")
     @ResponseBody
     public ResponseEntity<String> getTopicConfigs(@PathVariable String clusterName, @PathVariable String topicName) throws ExecutionException, InterruptedException {
         return ResponseEntity.ok(kafkaAdminService.getTopicConfigs(clusterName, topicName).toString());
     }
 
+    @PostMapping("/{clusterName}/topics")
+    public void createTopic(@PathVariable String clusterName,
+                            @RequestBody CreateTopicRequest req) throws ExecutionException, InterruptedException {
+        kafkaAdminService.createTopic(clusterName, req.getTopicName(), req.getNumPartitions(), req.getReplicationFactor());
+    }
 
 }
