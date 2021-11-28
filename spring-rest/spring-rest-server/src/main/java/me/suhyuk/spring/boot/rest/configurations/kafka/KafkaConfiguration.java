@@ -1,13 +1,17 @@
 package me.suhyuk.spring.boot.rest.configurations.kafka;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import me.suhyuk.spring.boot.rest.utils.Pair;
+import org.apache.kafka.clients.CommonClientConfigs;
+import org.apache.kafka.clients.admin.AdminClient;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Configuration
 @ConfigurationProperties(prefix = "kafka")
@@ -15,6 +19,7 @@ import java.util.List;
 @Getter
 @Setter
 public class KafkaConfiguration {
+
     private List<KafkaCluster> clusters;
 
     @Getter
@@ -23,12 +28,18 @@ public class KafkaConfiguration {
         private String clusterName;
         private String clusterId;
         private List<String> bootstrapServers;
-
-//        @Builder
-//        public KafkaCluster(String clusterName, String clusterId, List<String> bootstrapServers) {
-//            this.clusterName = clusterName;
-//            this.clusterId = clusterId;
-//            this.bootstrapServers = bootstrapServers;
-//        }
     }
+
+    @Bean
+    public Map<String, Pair<String, AdminClient>> registerAdminClients(KafkaConfiguration kafkaConfiguration) {
+        Map<String, Pair<String, AdminClient>> adminClients = new HashMap<>();
+        for (KafkaCluster kafkaCluster : kafkaConfiguration.getClusters()) {
+            String bootstrapServers = kafkaCluster.getBootstrapServers().stream().collect(Collectors.joining(","));
+            Properties props = new Properties();
+            props.put(CommonClientConfigs.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
+            adminClients.put(kafkaCluster.getClusterName(), new Pair(kafkaCluster.getClusterId(), AdminClient.create(props)));
+        }
+        return adminClients;
+    }
+
 }
