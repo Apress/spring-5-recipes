@@ -13,8 +13,7 @@ import java.time.LocalDate;
 public class ReservationValidator implements Validator {
     @Override
     public boolean supports(Class<?> clazz) {
-        return true;
-//        return Reservation.class.isAssignableFrom(clazz);
+        return Reservation.class.isAssignableFrom(clazz);
     }
 
     @Override
