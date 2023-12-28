@@ -4,6 +4,7 @@ import javax.sql.DataSource;
 
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.ehcache.EhCacheCacheManager;
+import org.springframework.cache.transaction.TransactionAwareCacheManagerProxy;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.acls.AclEntryVoter;
@@ -39,8 +40,8 @@ public class TodoAclConfig {
     }
 
     @Bean
-    public EhCacheCacheManager ehCacheManagerFactoryBean() {
-        return new EhCacheCacheManager();
+    public CacheManager ehCacheManagerFactoryBean() {
+        return new TransactionAwareCacheManagerProxy(new EhCacheCacheManager());
     }
 
     @Bean
